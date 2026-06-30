@@ -7,6 +7,7 @@ import type { FormEvent } from "react";
 import { authApi, ExtensionApiError } from "../auth/auth.api";
 import { tokenStorage } from "../auth/auth.storage";
 import { useCapture } from "../capture/useCapture";
+import { useBrowserInfo } from "../context/useBrowserInfo";
 
 /** Popup de l'extension : connexion et état de session (Étape 2). */
 export function Popup(): JSX.Element {
@@ -18,6 +19,23 @@ export function Popup(): JSX.Element {
   const [formError, setFormError] = useState<string | null>(null);
   const [submitting, setSubmitting] = useState(false);
   const { capture, isCapturing, error: captureError, runCapture, clear: clearCapture } = useCapture();
+  const {
+    browserInfo,
+    isCollecting,
+    error: browserInfoError,
+    collect: collectBrowserInfo,
+    clear: clearBrowserInfo,
+  } = useBrowserInfo();
+
+  const isBusy = isCapturing || isCollecting;
+
+  async function handleCapture(): Promise<void> {
+    await Promise.all([runCapture(), collectBrowserInfo()]);
+  }
+
+  async function handleClear(): Promise<void> {
+    await Promise.all([clearCapture(), clearBrowserInfo()]);
+  }
 
   // Au montage : restaurer la session depuis les jetons stockés.
   useEffect(() => {
@@ -101,8 +119,8 @@ export function Popup(): JSX.Element {
         <h1 className="text-lg font-bold">BugFlow</h1>
         <p className="text-sm text-brand-700">Connecté : {user.email}</p>
 
-        <Button fullWidth disabled={isCapturing} onClick={() => void runCapture()}>
-          {isCapturing ? "Capture…" : "Capturer la zone visible"}
+        <Button fullWidth disabled={isBusy} onClick={() => void handleCapture()}>
+          {isBusy ? "Capture…" : "Capturer la zone visible"}
         </Button>
 
         {captureError ? (
@@ -111,17 +129,45 @@ export function Popup(): JSX.Element {
           </p>
         ) : null}
 
+        {browserInfoError ? (
+          <p role="alert" className="text-xs text-red-600">
+            {browserInfoError}
+          </p>
+        ) : null}
+
         {capture ? (
-          <div className="flex flex-col gap-2">
-            <img
-              src={capture.dataUrl}
-              alt="Aperçu de la capture"
-              className="w-full rounded border border-brand-100"
-            />
-            <Button variant="ghost" onClick={() => void clearCapture()}>
-              Effacer la capture
-            </Button>
-          </div>
+          <img
+            src={capture.dataUrl}
+            alt="Aperçu de la capture"
+            className="w-full rounded border border-brand-100"
+          />
+        ) : null}
+
+        {browserInfo ? (
+          <dl className="grid grid-cols-[auto_1fr] gap-x-2 gap-y-1 rounded border border-brand-100 p-2 text-xs text-brand-700">
+            <dt className="font-semibold">OS</dt>
+            <dd>{browserInfo.os}</dd>
+            <dt className="font-semibold">Langue</dt>
+            <dd>{browserInfo.language}</dd>
+            <dt className="font-semibold">Écran</dt>
+            <dd>
+              {browserInfo.screen.width} × {browserInfo.screen.height}
+            </dd>
+            <dt className="font-semibold">Viewport</dt>
+            <dd>
+              {browserInfo.viewport.width} × {browserInfo.viewport.height}
+            </dd>
+            <dt className="font-semibold">URL</dt>
+            <dd className="truncate" title={browserInfo.url}>
+              {browserInfo.url}
+            </dd>
+          </dl>
+        ) : null}
+
+        {capture || browserInfo ? (
+          <Button variant="ghost" onClick={() => void handleClear()}>
+            Effacer la capture
+          </Button>
         ) : null}
 
         <Button variant="ghost" onClick={() => void handleLogout()}>

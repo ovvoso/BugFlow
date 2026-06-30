@@ -7,6 +7,8 @@ import type { ManifestV3Export } from "@crxjs/vite-plugin";
  * accès à l'API BugFlow.
  * Étape 3 : `activeTab` (capturer l'onglet courant sur geste utilisateur) et
  * `tabs`. `scripting` n'est pas requis pour la capture de la zone visible.
+ * Étape 4 : `scripting` pour injecter le collecteur d'informations navigateur
+ * dans la page (viewport/URL exacts du contexte de l'onglet).
  */
 const manifest: ManifestV3Export = {
   manifest_version: 3,
@@ -22,7 +24,7 @@ const manifest: ManifestV3Export = {
     "48": "icons/icon48.png",
     "128": "icons/icon128.png",
   },
-  permissions: ["storage", "activeTab", "tabs"],
+  permissions: ["storage", "activeTab", "tabs", "scripting"],
   host_permissions: ["http://localhost:3000/*"],
 };
 
