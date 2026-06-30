@@ -1,0 +1,38 @@
+# Dépendances
+node_modules/
+.pnpm-store/
+
+# Builds
+dist/
+build/
+out/
+*.tsbuildinfo
+
+# Extension packagée
+apps/extension/*.zip
+apps/extension/*.crx
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Environnement
+.env
+.env.local
+.env.*.local
+
+# Couverture de tests
+coverage/
+
+# Éditeurs / OS
+.DS_Store
+Thumbs.db
+.idea/
+*.swp
+
+# Prisma
+apps/api/prisma/*.db
+
+# Claude Code (configuration locale, non partagée)
+.claude/settings.local.json

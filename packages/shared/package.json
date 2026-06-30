@@ -1,0 +1,28 @@
+{
+  "name": "@bugflow/shared",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Utilitaires, constantes et fonctions pures partagés entre apps. Sans framework.",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "node": "./dist/index.js",
+      "default": "./src/index.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsc -b",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist *.tsbuildinfo",
+    "test": "echo \"(shared) no tests yet\" && exit 0"
+  },
+  "dependencies": {
+    "@bugflow/types": "workspace:*",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "typescript": "^5.6.2"
+  }
+}

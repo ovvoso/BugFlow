@@ -1,0 +1,23 @@
+// Schéma Prisma — BugFlow
+// Étape 2 : Authentification — modèle utilisateur.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+/// Utilisateur de la plateforme. Le mot de passe n'est jamais stocké en clair.
+model User {
+  id                 String   @id @default(uuid())
+  email              String   @unique
+  name               String?
+  passwordHash       String
+  // Hash du refresh token courant (rotation, une session active à la fois).
+  hashedRefreshToken String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+}

@@ -1,0 +1,4 @@
+/* Préréglages Tailwind partagés par le design system @bugflow/ui. */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

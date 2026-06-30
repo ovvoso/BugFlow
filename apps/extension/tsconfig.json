@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "types": ["vite/client", "chrome"],
+    "outDir": "./dist",
+    "noEmit": false
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "manifest.config.ts"],
+  "references": [{ "path": "../../packages/types" }, { "path": "../../packages/shared" }, { "path": "../../packages/ui" }]
+}

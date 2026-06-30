@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json.schemastore.org/tsconfig",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "noImplicitOverride": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
+    "skipLibCheck": true,
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "composite": true,
+    "incremental": true,
+    "paths": {
+      "@bugflow/types": ["./packages/types/src"],
+      "@bugflow/types/*": ["./packages/types/src/*"],
+      "@bugflow/shared": ["./packages/shared/src"],
+      "@bugflow/shared/*": ["./packages/shared/src/*"],
+      "@bugflow/ui": ["./packages/ui/src"],
+      "@bugflow/ui/*": ["./packages/ui/src/*"]
+    },
+    "baseUrl": "."
+  },
+  "exclude": ["node_modules", "dist", "build", "coverage"]
+}
