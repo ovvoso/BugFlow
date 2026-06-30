@@ -11,3 +11,4 @@ export type {
   Dimensions,
   OperatingSystem,
 } from "./browser-info/browser-info.types";
+export type { JsLogEntry, JsLogLevel } from "./logs/logs.types";

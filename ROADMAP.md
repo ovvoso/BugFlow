@@ -50,12 +50,13 @@ Contexte technique automatique.
 
 ---
 
-## ⬜ Étape 5 — Logs JavaScript
+## ✅ Étape 5 — Logs JavaScript
 
 Capture des erreurs console.
 
-- Interception des erreurs et avertissements.
-- Mise en tampon avec limite de taille (`MAX_LOG_SIZE`).
+- Interception `console.error`/`console.warn` + `error`/`unhandledrejection` (content script monde MAIN).
+- Mise en tampon avec limite de taille (`MAX_LOG_SIZE`) et troncature des messages.
+- Contrats `JsLogEntry` dans `@bugflow/types` ; validation + normalisation via `@bugflow/shared`.
 
 ---
 
@@ -142,4 +143,4 @@ Documentation finale produit et technique.
 
 > **Règle d'or :** ne jamais sauter d'étape ni mélanger deux étapes dans une même livraison. Relire `CLAUDE.md` avant de commencer toute étape.
 
-**Prochaine étape à implémenter : Étape 5 — Logs JavaScript.**
+**Prochaine étape à implémenter : Étape 6 — Logs réseau.**

@@ -9,6 +9,8 @@ import type { ManifestV3Export } from "@crxjs/vite-plugin";
  * `tabs`. `scripting` n'est pas requis pour la capture de la zone visible.
  * Étape 4 : `scripting` pour injecter le collecteur d'informations navigateur
  * dans la page (viewport/URL exacts du contexte de l'onglet).
+ * Étape 5 : content script (monde MAIN, `document_start`) qui intercepte les
+ * logs JavaScript de la page dans un tampon lu à la demande.
  */
 const manifest: ManifestV3Export = {
   manifest_version: 3,
@@ -26,6 +28,14 @@ const manifest: ManifestV3Export = {
   },
   permissions: ["storage", "activeTab", "tabs", "scripting"],
   host_permissions: ["http://localhost:3000/*"],
+  content_scripts: [
+    {
+      matches: ["http://*/*", "https://*/*"],
+      js: ["src/logs/logs.content.ts"],
+      run_at: "document_start",
+      world: "MAIN",
+    },
+  ],
 };
 
 export default manifest;

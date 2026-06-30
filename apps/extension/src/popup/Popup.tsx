@@ -8,6 +8,7 @@ import { authApi, ExtensionApiError } from "../auth/auth.api";
 import { tokenStorage } from "../auth/auth.storage";
 import { useCapture } from "../capture/useCapture";
 import { useBrowserInfo } from "../context/useBrowserInfo";
+import { useJsLogs } from "../logs/useJsLogs";
 
 /** Popup de l'extension : connexion et état de session (Étape 2). */
 export function Popup(): JSX.Element {
@@ -26,15 +27,22 @@ export function Popup(): JSX.Element {
     collect: collectBrowserInfo,
     clear: clearBrowserInfo,
   } = useBrowserInfo();
+  const {
+    logs,
+    isCollecting: isCollectingLogs,
+    error: logsError,
+    collect: collectJsLogs,
+    clear: clearJsLogs,
+  } = useJsLogs();
 
-  const isBusy = isCapturing || isCollecting;
+  const isBusy = isCapturing || isCollecting || isCollectingLogs;
 
   async function handleCapture(): Promise<void> {
-    await Promise.all([runCapture(), collectBrowserInfo()]);
+    await Promise.all([runCapture(), collectBrowserInfo(), collectJsLogs()]);
   }
 
   async function handleClear(): Promise<void> {
-    await Promise.all([clearCapture(), clearBrowserInfo()]);
+    await Promise.all([clearCapture(), clearBrowserInfo(), clearJsLogs()]);
   }
 
   // Au montage : restaurer la session depuis les jetons stockés.
@@ -135,6 +143,12 @@ export function Popup(): JSX.Element {
           </p>
         ) : null}
 
+        {logsError ? (
+          <p role="alert" className="text-xs text-red-600">
+            {logsError}
+          </p>
+        ) : null}
+
         {capture ? (
           <img
             src={capture.dataUrl}
@@ -164,7 +178,24 @@ export function Popup(): JSX.Element {
           </dl>
         ) : null}
 
-        {capture || browserInfo ? (
+        {logs.length > 0 ? (
+          <div className="flex flex-col gap-1 rounded border border-brand-100 p-2 text-xs">
+            <p className="font-semibold text-brand-900">Logs JS ({logs.length})</p>
+            <ul className="flex max-h-32 flex-col gap-1 overflow-y-auto">
+              {logs.map((log, index) => (
+                <li
+                  key={`${log.timestamp}-${index}`}
+                  className={log.level === "error" ? "text-red-600" : "text-amber-600"}
+                >
+                  <span className="font-semibold uppercase">{log.level}</span>{" "}
+                  <span className="break-words">{log.message}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {capture || browserInfo || logs.length > 0 ? (
           <Button variant="ghost" onClick={() => void handleClear()}>
             Effacer la capture
           </Button>

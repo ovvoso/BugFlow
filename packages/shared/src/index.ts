@@ -21,3 +21,7 @@ export {
   detectOs,
   normalizeBrowserInfo,
 } from "./browser-info/browser-info.normalize";
+export { MAX_LOG_SIZE, MAX_LOG_MESSAGE_LENGTH } from "./logs/logs.constants";
+export { jsLogEntrySchema, jsLogsSchema } from "./logs/logs.schema";
+export type { RawJsLogEntry } from "./logs/logs.schema";
+export { normalizeJsLogs } from "./logs/logs.normalize";
