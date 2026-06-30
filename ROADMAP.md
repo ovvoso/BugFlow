@@ -40,12 +40,13 @@ Capture visuelle de la page courante.
 
 ---
 
-## ⬜ Étape 4 — Collecte des informations navigateur
+## ✅ Étape 4 — Collecte des informations navigateur
 
 Contexte technique automatique.
 
-- User agent, OS, résolution, URL, viewport, langue.
-- Normalisation via `@bugflow/shared`.
+- User agent, OS, résolution, URL, viewport, langue (lus dans la page via `chrome.scripting`).
+- Contrats `BrowserInfo` dans `@bugflow/types` ; validation + normalisation via `@bugflow/shared`.
+- Collecte déclenchée avec la capture, stockée en `chrome.storage.session`.
 
 ---
 
@@ -141,4 +142,4 @@ Documentation finale produit et technique.
 
 > **Règle d'or :** ne jamais sauter d'étape ni mélanger deux étapes dans une même livraison. Relire `CLAUDE.md` avant de commencer toute étape.
 
-**Prochaine étape à implémenter : Étape 4 — Collecte des informations navigateur.**
+**Prochaine étape à implémenter : Étape 5 — Logs JavaScript.**

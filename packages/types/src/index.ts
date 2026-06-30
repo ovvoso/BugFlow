@@ -6,3 +6,8 @@
  */
 
 export type { AuthUser, AuthTokens, AuthResult } from "./auth/auth.types";
+export type {
+  BrowserInfo,
+  Dimensions,
+  OperatingSystem,
+} from "./browser-info/browser-info.types";

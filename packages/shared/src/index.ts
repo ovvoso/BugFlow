@@ -15,3 +15,9 @@ export {
 } from "./auth/auth.constants";
 export { registerSchema, loginSchema } from "./auth/auth.schema";
 export type { RegisterInput, LoginInput } from "./auth/auth.schema";
+export { rawBrowserInfoSchema } from "./browser-info/browser-info.schema";
+export type { RawBrowserInfo } from "./browser-info/browser-info.schema";
+export {
+  detectOs,
+  normalizeBrowserInfo,
+} from "./browser-info/browser-info.normalize";
