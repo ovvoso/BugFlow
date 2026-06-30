@@ -31,12 +31,12 @@ Gestion des comptes et des sessions.
 
 ---
 
-## ⬜ Étape 3 — Capture d'écran
+## ✅ Étape 3 — Capture d'écran
 
 Capture visuelle de la page courante.
 
-- Permission `tabs` / `scripting` dans le manifest.
-- Capture de la zone visible et stockage temporaire.
+- Permissions `activeTab` / `tabs` dans le manifest (`scripting` non requis pour la zone visible).
+- Capture de la zone visible (`chrome.tabs.captureVisibleTab`, JPEG) et stockage temporaire (`chrome.storage.session`).
 
 ---
 
@@ -141,4 +141,4 @@ Documentation finale produit et technique.
 
 > **Règle d'or :** ne jamais sauter d'étape ni mélanger deux étapes dans une même livraison. Relire `CLAUDE.md` avant de commencer toute étape.
 
-**Prochaine étape à implémenter : Étape 3 — Capture d'écran.**
+**Prochaine étape à implémenter : Étape 4 — Collecte des informations navigateur.**

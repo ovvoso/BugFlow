@@ -4,8 +4,9 @@ import type { ManifestV3Export } from "@crxjs/vite-plugin";
  * Manifest Chrome (V3) de l'extension BugFlow.
  *
  * Étape 2 : permission `storage` pour conserver les jetons d'authentification ;
- * accès à l'API BugFlow. Les permissions de capture (tabs, scripting, ...)
- * seront ajoutées aux étapes suivantes.
+ * accès à l'API BugFlow.
+ * Étape 3 : `activeTab` (capturer l'onglet courant sur geste utilisateur) et
+ * `tabs`. `scripting` n'est pas requis pour la capture de la zone visible.
  */
 const manifest: ManifestV3Export = {
   manifest_version: 3,
@@ -21,7 +22,7 @@ const manifest: ManifestV3Export = {
     "48": "icons/icon48.png",
     "128": "icons/icon128.png",
   },
-  permissions: ["storage"],
+  permissions: ["storage", "activeTab", "tabs"],
   host_permissions: ["http://localhost:3000/*"],
 };
 
