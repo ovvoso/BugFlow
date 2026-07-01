@@ -25,3 +25,17 @@ export { MAX_LOG_SIZE, MAX_LOG_MESSAGE_LENGTH } from "./logs/logs.constants";
 export { jsLogEntrySchema, jsLogsSchema } from "./logs/logs.schema";
 export type { RawJsLogEntry } from "./logs/logs.schema";
 export { normalizeJsLogs } from "./logs/logs.normalize";
+export {
+  MAX_NETWORK_LOG_SIZE,
+  NETWORK_REDACTED_VALUE,
+  SENSITIVE_QUERY_PARAMS,
+} from "./network/network.constants";
+export {
+  networkLogEntrySchema,
+  networkLogsSchema,
+} from "./network/network.schema";
+export type { RawNetworkLogEntry } from "./network/network.schema";
+export {
+  normalizeNetworkLogs,
+  sanitizeUrl,
+} from "./network/network.normalize";

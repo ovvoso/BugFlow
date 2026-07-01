@@ -60,12 +60,13 @@ Capture des erreurs console.
 
 ---
 
-## ⬜ Étape 6 — Logs réseau
+## ✅ Étape 6 — Logs réseau
 
 Capture des requêtes HTTP pertinentes.
 
-- Suivi des appels XHR/fetch (statuts, durées).
-- Filtrage des données sensibles avant envoi.
+- Suivi des appels XHR/fetch (méthode, statut, durée) via content script monde MAIN.
+- Métadonnées seulement (jamais de corps ni d'en-têtes) ; URL assainie (`SENSITIVE_QUERY_PARAMS`).
+- Contrat `NetworkLogEntry` dans `@bugflow/types` ; validation + normalisation via `@bugflow/shared`.
 
 ---
 
@@ -143,4 +144,4 @@ Documentation finale produit et technique.
 
 > **Règle d'or :** ne jamais sauter d'étape ni mélanger deux étapes dans une même livraison. Relire `CLAUDE.md` avant de commencer toute étape.
 
-**Prochaine étape à implémenter : Étape 6 — Logs réseau.**
+**Prochaine étape à implémenter : Étape 7 — Création automatique de ticket.**

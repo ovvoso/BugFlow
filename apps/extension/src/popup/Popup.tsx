@@ -9,6 +9,7 @@ import { tokenStorage } from "../auth/auth.storage";
 import { useCapture } from "../capture/useCapture";
 import { useBrowserInfo } from "../context/useBrowserInfo";
 import { useJsLogs } from "../logs/useJsLogs";
+import { useNetworkLogs } from "../network/useNetworkLogs";
 
 /** Popup de l'extension : connexion et état de session (Étape 2). */
 export function Popup(): JSX.Element {
@@ -34,15 +35,33 @@ export function Popup(): JSX.Element {
     collect: collectJsLogs,
     clear: clearJsLogs,
   } = useJsLogs();
+  const {
+    logs: networkLogs,
+    isCollecting: isCollectingNetwork,
+    error: networkError,
+    collect: collectNetworkLogs,
+    clear: clearNetworkLogs,
+  } = useNetworkLogs();
 
-  const isBusy = isCapturing || isCollecting || isCollectingLogs;
+  const isBusy =
+    isCapturing || isCollecting || isCollectingLogs || isCollectingNetwork;
 
   async function handleCapture(): Promise<void> {
-    await Promise.all([runCapture(), collectBrowserInfo(), collectJsLogs()]);
+    await Promise.all([
+      runCapture(),
+      collectBrowserInfo(),
+      collectJsLogs(),
+      collectNetworkLogs(),
+    ]);
   }
 
   async function handleClear(): Promise<void> {
-    await Promise.all([clearCapture(), clearBrowserInfo(), clearJsLogs()]);
+    await Promise.all([
+      clearCapture(),
+      clearBrowserInfo(),
+      clearJsLogs(),
+      clearNetworkLogs(),
+    ]);
   }
 
   // Au montage : restaurer la session depuis les jetons stockés.
@@ -149,6 +168,12 @@ export function Popup(): JSX.Element {
           </p>
         ) : null}
 
+        {networkError ? (
+          <p role="alert" className="text-xs text-red-600">
+            {networkError}
+          </p>
+        ) : null}
+
         {capture ? (
           <img
             src={capture.dataUrl}
@@ -195,7 +220,26 @@ export function Popup(): JSX.Element {
           </div>
         ) : null}
 
-        {capture || browserInfo || logs.length > 0 ? (
+        {networkLogs.length > 0 ? (
+          <div className="flex flex-col gap-1 rounded border border-brand-100 p-2 text-xs">
+            <p className="font-semibold text-brand-900">Réseau ({networkLogs.length})</p>
+            <ul className="flex max-h-32 flex-col gap-1 overflow-y-auto">
+              {networkLogs.map((log, index) => (
+                <li
+                  key={`${log.startedAt}-${index}`}
+                  className={log.status >= 400 || log.status === 0 ? "text-red-600" : "text-brand-700"}
+                >
+                  <span className="font-semibold">{log.status || "ERR"}</span>{" "}
+                  <span className="font-semibold">{log.method}</span>{" "}
+                  <span className="break-all">{log.url}</span>{" "}
+                  <span className="text-brand-500">{log.durationMs} ms</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {capture || browserInfo || logs.length > 0 || networkLogs.length > 0 ? (
           <Button variant="ghost" onClick={() => void handleClear()}>
             Effacer la capture
           </Button>
