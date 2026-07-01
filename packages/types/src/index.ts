@@ -12,3 +12,4 @@ export type {
   OperatingSystem,
 } from "./browser-info/browser-info.types";
 export type { JsLogEntry, JsLogLevel } from "./logs/logs.types";
+export type { NetworkLogEntry } from "./network/network.types";

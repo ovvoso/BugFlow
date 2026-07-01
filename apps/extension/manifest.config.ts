@@ -11,6 +11,8 @@ import type { ManifestV3Export } from "@crxjs/vite-plugin";
  * dans la page (viewport/URL exacts du contexte de l'onglet).
  * Étape 5 : content script (monde MAIN, `document_start`) qui intercepte les
  * logs JavaScript de la page dans un tampon lu à la demande.
+ * Étape 6 : content script (monde MAIN, `document_start`) qui intercepte les
+ * requêtes réseau (fetch/XHR) — métadonnées seulement — dans un tampon.
  */
 const manifest: ManifestV3Export = {
   manifest_version: 3,
@@ -31,7 +33,7 @@ const manifest: ManifestV3Export = {
   content_scripts: [
     {
       matches: ["http://*/*", "https://*/*"],
-      js: ["src/logs/logs.content.ts"],
+      js: ["src/logs/logs.content.ts", "src/network/network.content.ts"],
       run_at: "document_start",
       world: "MAIN",
     },
